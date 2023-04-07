@@ -30,5 +30,15 @@ public class SaleController {
     public ResponseEntity<Sale> saleProduct(@RequestBody RequestSaleDto request) {
         return ResponseEntity.ok().body(saleService.sale(request));
     }
+
+    @Operation(
+            summary = "Consultar todas as vendas.",
+            description = "Consulta de todas as vendas no banco de dados."
+    )
+    @GetMapping
+    public ResponseEntity<List<Sale>> findAll() {
+        List<Sale> list = saleService.findAll();
+        return ResponseEntity.ok().body(list);
+    }
 }
 
