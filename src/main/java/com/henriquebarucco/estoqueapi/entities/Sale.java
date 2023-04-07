@@ -1,0 +1,33 @@
+package com.henriquebarucco.estoqueapi.entities;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "tb_sales")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Sale implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @JoinColumn(name = "product_id")
+    private Long productId;
+
+    @JoinColumn(name = "quantity")
+    private Integer quantity;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
+    @JoinColumn(name = "date")
+    private LocalDateTime date;
+}
