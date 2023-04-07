@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Produtos", description = "Endpoints para os produtos do estoque.")
 @RestController
 @RequestMapping(path = "/products")
@@ -26,16 +28,17 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.insert(request));
     }
 
-    /*@Operation(
-            summary = "Consultar todos planejamentos.",
-            description = "Consulta de todos os planejamentos do banco de dados."
+    @Operation(
+            summary = "Consultar todos os produtos.",
+            description = "Consulta de todos os produtos do banco de dados."
     )
     @GetMapping
-    public ResponseEntity<List<Planning>> findAll() {
-        List<Planning> list = planningService.findAll();
+    public ResponseEntity<List<Product>> findAll() {
+        List<Product> list = productService.findAll();
         return ResponseEntity.ok().body(list);
     }
 
+   /*
     @Deprecated
     @Operation(
             summary = "Consultar um planejamento por id.",

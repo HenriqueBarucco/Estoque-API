@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -15,11 +17,11 @@ public class ProductService {
     private ProductRepository productRepository;
 
     private final ModelMapper modelMapper = new ModelMapper();
-/*
-    public List<Planning> findAll() {
-        return planningRepository.findAll();
-    }
 
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+/*
     public Planning findById(Long id) {
         Optional<Planning> obj = planningRepository.findById(id);
         return obj.orElseThrow(() -> new ResourceNotFoundException(id));
