@@ -38,18 +38,16 @@ public class ProductController {
         return ResponseEntity.ok().body(list);
     }
 
-   /*
-    @Deprecated
     @Operation(
-            summary = "Consultar um planejamento por id.",
-            description = "Consulta de um planejamento  por id do banco de dados."
+            summary = "Consultar um produto por id.",
+            description = "Consulta de um produto por id do banco de dados."
     )
     @GetMapping(value = "/id/{id}")
-    public ResponseEntity<Planning> findById(@PathVariable Long id) {
-        Planning obj = planningService.findById(id);
+    public ResponseEntity<Product> findById(@PathVariable Long id) {
+        Product obj = productService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
-
+/*
     @Operation(
             summary = "Consultar um planejamento por data.",
             description = "Consulta de um planejamento especifico por data do banco de dados."
