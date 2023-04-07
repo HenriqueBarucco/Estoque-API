@@ -1,6 +1,6 @@
 package com.henriquebarucco.estoqueapi.controllers.product;
 
-import com.henriquebarucco.estoqueapi.controllers.product.dto.ProductDto;
+import com.henriquebarucco.estoqueapi.controllers.product.dto.RequestProductDto;
 import com.henriquebarucco.estoqueapi.entities.Product;
 import com.henriquebarucco.estoqueapi.services.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +24,7 @@ public class ProductController {
             description = "Adiciona um produto ao banco de dados."
     )
     @PostMapping()
-    public ResponseEntity<Product> addNewProduct(@RequestBody ProductDto request) {
+    public ResponseEntity<Product> addNewProduct(@RequestBody RequestProductDto request) {
         return ResponseEntity.ok().body(productService.insert(request));
     }
 
@@ -42,39 +42,29 @@ public class ProductController {
             summary = "Consultar um produto por id.",
             description = "Consulta de um produto por id do banco de dados."
     )
-    @GetMapping(value = "/id/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Product> findById(@PathVariable Long id) {
         Product obj = productService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
-/*
-    @Operation(
-            summary = "Consultar um planejamento por data.",
-            description = "Consulta de um planejamento especifico por data do banco de dados."
-    )
-    @PostMapping(value = "/date")
-    public ResponseEntity<Planning> findByDate(@RequestBody PlanningDto request) {
-        Planning planning = planningService.find(request);
-        return ResponseEntity.ok().body(planning);
-    }
 
     @Operation(
-            summary = "Remover um planejamento por data.",
-            description = "Remove um planejamento especifico por data do banco de dados."
+            summary = "Remover um produto por id.",
+            description = "Remove um produto especifico por id do banco de dados."
     )
-    @DeleteMapping()
-    public ResponseEntity<Void> deleteByDate(@RequestBody PlanningDto request) {
-        planningService.delete(request);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        productService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(
-            summary = "Atualizar um planejamento por data.",
-            description = "Atualiza um planejamento especifico por data do banco de dados."
+            summary = "Atualizar um produto no estoque.",
+            description = "Atualiza um produto especifico por id do banco de dados."
     )
-    @PutMapping()
-    public ResponseEntity<Void> updateByDate(@RequestBody PlanningTimetableDto request) {
-        planningService.update(request);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> updateByDate(@PathVariable Long id, @RequestBody RequestProductDto request) {
+        productService.update(id, request);
         return ResponseEntity.noContent().build();
-    }*/
+    }
 }

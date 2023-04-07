@@ -1,14 +1,18 @@
 package com.henriquebarucco.estoqueapi.services;
 
-import com.henriquebarucco.estoqueapi.controllers.product.dto.ProductDto;
+import com.henriquebarucco.estoqueapi.controllers.product.dto.RequestProductDto;
 import com.henriquebarucco.estoqueapi.entities.Product;
 import com.henriquebarucco.estoqueapi.repositories.ProductRepository;
+import com.henriquebarucco.estoqueapi.services.exceptions.DatabaseException;
 import com.henriquebarucco.estoqueapi.services.exceptions.ProductAlreadyExistsException;
 import com.henriquebarucco.estoqueapi.services.exceptions.ProductNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,29 +32,20 @@ public class ProductService {
         Optional<Product> obj = productRepository.findById(id);
         return obj.orElseThrow(() -> new ProductNotFoundException(id));
     }
-/*
-    public void delete(PlanningDto planning) {
+
+    public void delete(Long id) {
         try {
-            Planning deletedPlanning = planningRepository.findFirstByCicloAndTurmaAndDate(planning.getCiclo(), planning.getTurma(), planning.getDate());
-            optionsService.removePlace(deletedPlanning);
-            planningRepository.deleteByCicloAndTurmaAndDate(planning.getCiclo(), planning.getTurma(), planning.getDate());
+            productRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException(planning.getDate());
+            throw new ProductNotFoundException(id);
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException(e.getMessage());
         }
     }
 
-    public Planning find(PlanningDto planningDto) {
-        Planning planning = planningRepository.findFirstByCicloAndTurmaAndDate(planningDto.getCiclo(), planningDto.getTurma(), planningDto.getDate());
-        if (planning == null) {
-            throw new ResourceNotFoundException(planningDto.getDate());
-        }
-        return planning;
-    }*/
-
-    public Product insert(ProductDto productDto) {
+    public Product insert(RequestProductDto productDto) {
         Product product = modelMapper.map(productDto, Product.class);
+        product.setTotal(product.getPrice() * product.getAvailable());
 
         if (productRepository.findFirstByName(product.getName()) != null) {
             throw new ProductAlreadyExistsException();
@@ -60,31 +55,24 @@ public class ProductService {
         return addedProduct;
     }
 
-    /*public void update(PlanningTimetableDto planning) {
-        Planning obj = modelMapper.map(planning, Planning.class);
+    public void update(Long id, RequestProductDto productDto) {
+        Product obj = modelMapper.map(productDto, Product.class);
+        obj.setTotal(obj.getPrice() * obj.getAvailable());
+
         try {
-            Planning entity = planningRepository.findFirstByCicloAndTurmaAndDate(obj.getCiclo(), obj.getTurma(), obj.getDate());
+            Product entity = productRepository.findFirstById(id);
             updateData(entity, obj);
-            planningRepository.save(entity);
+            productRepository.save(entity);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException(obj.getDate());
+            throw new ProductNotFoundException(id);
         }
     }
 
-    private void updateData(Planning entity, Planning obj) {
-        HistoryPlanningDao historyPlanningDao = entity.getHistoryPlanningDao();
-
-        var lista = historyPlanningDao.getEditedBy();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        String currentDateTime = LocalDateTime.now().format(formatter);
-
-        String editedBy = SecurityContextHolder.getContext().getAuthentication().getName();
-        HistoryInfoDao historyInfoDao = new HistoryInfoDao(editedBy, currentDateTime);
-
-        lista.add(0, historyInfoDao);
-
-        entity.setHistoryPlanningDao(historyPlanningDao);
-        entity.setPlanning(obj.getPlanning());
-    }*/
+    private void updateData(Product entity, Product obj) {
+        entity.setName(obj.getName());
+        entity.setDescription(obj.getDescription());
+        entity.setAvailable(obj.getAvailable());
+        entity.setPrice(obj.getPrice());
+        entity.setTotal(obj.getAvailable() * obj.getPrice());
+    }
 }

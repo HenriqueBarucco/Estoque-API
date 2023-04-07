@@ -30,4 +30,7 @@ public class Product implements Serializable {
 
     @JoinColumn(name = "price")
     private Double price;
+
+    @JoinColumn(name = "total")
+    private Double total;
 }
