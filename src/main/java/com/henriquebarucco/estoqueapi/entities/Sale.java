@@ -21,8 +21,8 @@ public class Sale implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @JoinColumn(name = "product_id")
-    private Long productId;
+    @ManyToOne(targetEntity = Product.class)
+    private Product product;
 
     @JoinColumn(name = "quantity")
     private Integer quantity;

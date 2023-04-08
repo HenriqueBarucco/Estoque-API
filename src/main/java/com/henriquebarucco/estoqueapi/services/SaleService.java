@@ -24,10 +24,9 @@ public class SaleService {
     @Autowired
     private ProductRepository productRepository;
 
-    private final ModelMapper modelMapper = new ModelMapper();
-
     public Sale sale(RequestSaleDto saleDto) {
-        Sale sale = new Sale(null, saleDto.getProductId(), saleDto.getQuantity(), null);
+        Product product = productRepository.findFirstById(saleDto.getProductId());
+        Sale sale = new Sale(null, product, saleDto.getQuantity(), null);
 
         LocalDateTime dateTime;
 
@@ -40,7 +39,7 @@ public class SaleService {
 
         sale.setDate(dateTime);
 
-        Product product = productRepository.findFirstById(sale.getProductId());
+        //Product product = productRepository.findFirstById(sale.getProductId());
 
         if (product.getAvailable() < sale.getQuantity()) {
             throw new NotAvailableException();
