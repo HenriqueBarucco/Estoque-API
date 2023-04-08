@@ -1,16 +1,18 @@
 package com.henriquebarucco.estoqueapi.config;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.util.Collections;
+import java.util.List;
+
+@EnableWebMvc
 @Configuration
 public class SwaggerConfig {
 
@@ -45,3 +47,4 @@ public class SwaggerConfig {
         return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
     }
 }
+

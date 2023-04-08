@@ -15,11 +15,16 @@ spring:
             non_contextual_creation: true
     show-sql: true
     database-platform: org.hibernate.dialect.MariaDB103Dialect
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 swagger:
   openapi:
     dev-url: http://localhost:8080
     prod-url: https://estoque-api.henriquebarucco.com.br
+
+
 
 server:
   error:
