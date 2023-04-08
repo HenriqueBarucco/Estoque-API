@@ -1,5 +1,6 @@
 package com.henriquebarucco.estoqueapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,9 +29,11 @@ public class Product implements Serializable {
     @JoinColumn(name = "available")
     private Integer available;
 
+    @JsonFormat(pattern = "#.##")
     @JoinColumn(name = "price")
     private Double price;
 
+    @JsonFormat(pattern = "#.##")
     @JoinColumn(name = "total")
     private Double total;
 }

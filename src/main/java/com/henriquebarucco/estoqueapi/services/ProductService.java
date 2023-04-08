@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -33,6 +34,7 @@ public class ProductService {
         return obj.orElseThrow(() -> new ProductNotFoundException(id));
     }
 
+    @Transactional
     public void delete(Long id) {
         try {
             productRepository.deleteById(id);
