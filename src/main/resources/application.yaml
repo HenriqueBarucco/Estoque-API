@@ -19,6 +19,7 @@ spring:
 swagger:
   openapi:
     dev-url: http://localhost:8080
+    prod-url: https://estoque-api.henriquebarucco.com.br
 
 server:
   error:

@@ -17,11 +17,18 @@ public class SwaggerConfig {
     @Value("${swagger.openapi.dev-url}")
     private String devUrl;
 
+    @Value("${swagger.openapi.prod-url}")
+    private String prodUrl;
+
     @Bean
     public OpenAPI myOpenAPI() {
         Server devServer = new Server();
         devServer.setUrl(devUrl);
         devServer.setDescription("Ambiente de desenvolvimento");
+
+        Server prodServer = new Server();
+        prodServer.setUrl(prodUrl);
+        prodServer.setDescription("Ambiente de produção");
 
 
         Contact contact = new Contact();
@@ -35,6 +42,6 @@ public class SwaggerConfig {
                 .contact(contact)
                 .description("API para gerenciamento de Estoque para o trabalho de Big Data.").termsOfService("https://www.henriquebarucco.com.br");
 
-        return new OpenAPI().info(info).servers(List.of(devServer));
+        return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
     }
 }
