@@ -23,7 +23,7 @@ public class ResponseSaleDto {
     LocalDateTime date;
     @JsonProperty("totalValue")
     Double totalValue() {
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("pt", "BR"));
         symbols.setDecimalSeparator('.');
         DecimalFormat df = new DecimalFormat("0.00", symbols);
         return Double.parseDouble(df.format(product.price * quantity));
