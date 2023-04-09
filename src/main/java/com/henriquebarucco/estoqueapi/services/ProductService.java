@@ -47,7 +47,6 @@ public class ProductService {
 
     public Product insert(RequestProductDto productDto) {
         Product product = modelMapper.map(productDto, Product.class);
-        product.setTotal(product.getPrice() * product.getAvailable());
 
         if (productRepository.findFirstByName(product.getName()) != null) {
             throw new ProductAlreadyExistsException();
@@ -59,7 +58,6 @@ public class ProductService {
 
     public void update(Long id, RequestProductDto productDto) {
         Product obj = modelMapper.map(productDto, Product.class);
-        obj.setTotal(obj.getPrice() * obj.getAvailable());
 
         try {
             Product entity = productRepository.findFirstById(id);
@@ -75,6 +73,5 @@ public class ProductService {
         entity.setDescription(obj.getDescription());
         entity.setAvailable(obj.getAvailable());
         entity.setPrice(obj.getPrice());
-        entity.setTotal(obj.getAvailable() * obj.getPrice());
     }
 }

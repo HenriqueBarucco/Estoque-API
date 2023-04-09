@@ -39,14 +39,11 @@ public class SaleService {
 
         sale.setDate(dateTime);
 
-        //Product product = productRepository.findFirstById(sale.getProductId());
-
         if (product.getAvailable() < sale.getQuantity()) {
             throw new NotAvailableException();
         }
 
         product.setAvailable(product.getAvailable() - sale.getQuantity());
-        product.setTotal(product.getPrice() * product.getAvailable());
 
         productRepository.save(product);
 
