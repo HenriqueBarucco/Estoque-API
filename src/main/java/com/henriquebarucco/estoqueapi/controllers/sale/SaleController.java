@@ -35,7 +35,6 @@ public class SaleController {
     public ResponseEntity<ResponseSaleDto> saleProduct(@RequestBody RequestSaleDto request) {
         Sale sale = saleService.sale(request);
         ResponseSaleDto responseSaleDto = modelMapper.map(sale, ResponseSaleDto.class);
-        responseSaleDto.setTotalValue(responseSaleDto.getQuantity() * responseSaleDto.getProduct().getPrice());
         return ResponseEntity.ok().body(responseSaleDto);
     }
 
@@ -49,7 +48,6 @@ public class SaleController {
         List<ResponseSaleDto> listResponse = new ArrayList<>();
         list.forEach(sale -> {
             ResponseSaleDto responseSaleDto = modelMapper.map(sale, ResponseSaleDto.class);
-            responseSaleDto.setTotalValue(responseSaleDto.getQuantity() * responseSaleDto.getProduct().getPrice());
             listResponse.add(responseSaleDto);
         });
         return ResponseEntity.ok().body(listResponse);
