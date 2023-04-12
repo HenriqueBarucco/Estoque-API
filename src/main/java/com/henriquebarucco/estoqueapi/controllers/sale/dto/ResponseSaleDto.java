@@ -19,6 +19,8 @@ public class ResponseSaleDto {
     Long id;
     ProductDto product;
     Integer quantity;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     LocalDateTime date;
     @JsonProperty("totalValue")
     Double totalValue() {
