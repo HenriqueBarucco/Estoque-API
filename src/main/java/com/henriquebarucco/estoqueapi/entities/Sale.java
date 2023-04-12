@@ -27,7 +27,7 @@ public class Sale implements Serializable {
     @JoinColumn(name = "quantity")
     private Integer quantity;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", shape=Shape.STRING)
     @JoinColumn(name = "date")
     private LocalDateTime date;
 }
