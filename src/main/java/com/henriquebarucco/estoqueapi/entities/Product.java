@@ -27,8 +27,11 @@ public class Product implements Serializable {
     @JoinColumn(name = "name")
     private String name;
 
-    @JoinColumn(name = "description")
-    private String description;
+    @JoinColumn(name = "model")
+    private String model;
+
+    @JoinColumn(name = "measure")
+    private String measure;
 
     @JoinColumn(name = "available")
     private Integer available;

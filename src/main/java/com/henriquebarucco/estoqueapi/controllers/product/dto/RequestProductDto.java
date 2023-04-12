@@ -11,7 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RequestProductDto {
     String name;
-    String description;
+    String model;
+    String measure;
     Integer available;
     Double price;
 }
