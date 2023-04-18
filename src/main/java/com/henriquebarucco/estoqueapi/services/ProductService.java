@@ -54,7 +54,8 @@ public class ProductService {
         product.setYears(new ArrayList<String>());
 
         if (productRepository.findFirstByName(product.getName()) != null) {
-            throw new ProductAlreadyExistsException(); // TODO SSSSSSSSSSSSSSS
+            return productRepository.findFirstByName(product.getName());
+            //throw new ProductAlreadyExistsException(); // TODO SSSSSSSSSSSSSSS
         }
 
         Product addedProduct = productRepository.save(product);
