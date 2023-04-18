@@ -2,16 +2,12 @@ package com.henriquebarucco.estoqueapi.services;
 
 import com.henriquebarucco.estoqueapi.controllers.sale.dto.RequestSaleDto;
 import com.henriquebarucco.estoqueapi.entities.Product;
-import com.henriquebarucco.estoqueapi.entities.Sale;
+import com.henriquebarucco.estoqueapi.entities.dao.SaleDao;
 import com.henriquebarucco.estoqueapi.repositories.ProductRepository;
-import com.henriquebarucco.estoqueapi.repositories.SaleRepository;
 import com.henriquebarucco.estoqueapi.services.exceptions.NotAvailableException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -19,38 +15,29 @@ import java.util.List;
 public class SaleService {
 
     @Autowired
-    private SaleRepository saleRepository;
-
-    @Autowired
     private ProductRepository productRepository;
 
-    public Sale sale(RequestSaleDto saleDto) {
+    public Product sale(RequestSaleDto saleDto) {
         Product product = productRepository.findFirstById(saleDto.getProductId());
-        Sale sale = new Sale(null, product, saleDto.getQuantity(), null);
 
-        LocalDateTime dateTime;
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        if (saleDto.getDate() == null) {
-            dateTime = LocalDateTime.now();
-        } else {
-            dateTime = LocalDateTime.parse(saleDto.getDate(), formatter);
-        }
-
-        sale.setDate(dateTime);
-
-        if (product.getAvailable() < sale.getQuantity()) {
+        if (product.getAvailable() < saleDto.getQuantity()) {
             throw new NotAvailableException();
         }
 
-        product.setAvailable(product.getAvailable() - sale.getQuantity());
+        product.setIsSold(true);
+        SaleDao saleDao = product.getSale();
 
-        productRepository.save(product);
+        product.setSale(new SaleDao(
+            saleDao.getQuantitySold() + saleDto.getQuantity(),
+            saleDao.getTotalValue() + (product.getPrice() * saleDto.getQuantity())
+        ));
 
-        return saleRepository.save(sale);
+        product.setAvailable(product.getAvailable() - saleDto.getQuantity());
+
+        return productRepository.save(product);
     }
 
-    public List<Sale> findAll() {
-        return saleRepository.findAll();
+    public List<Product> findAll() {
+        return productRepository.findByIsSoldTrue();
     }
 }

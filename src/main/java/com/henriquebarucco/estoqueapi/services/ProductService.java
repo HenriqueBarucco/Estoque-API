@@ -2,6 +2,7 @@ package com.henriquebarucco.estoqueapi.services;
 
 import com.henriquebarucco.estoqueapi.controllers.product.dto.RequestProductDto;
 import com.henriquebarucco.estoqueapi.entities.Product;
+import com.henriquebarucco.estoqueapi.entities.dao.SaleDao;
 import com.henriquebarucco.estoqueapi.repositories.ProductRepository;
 import com.henriquebarucco.estoqueapi.services.exceptions.DatabaseException;
 import com.henriquebarucco.estoqueapi.services.exceptions.ProductAlreadyExistsException;
@@ -47,6 +48,8 @@ public class ProductService {
 
     public Product insert(RequestProductDto productDto) {
         Product product = modelMapper.map(productDto, Product.class);
+        product.setIsSold(false);
+        product.setSale(new SaleDao(0, 0.0));
 
         if (productRepository.findFirstByName(product.getName()) != null) {
             throw new ProductAlreadyExistsException();

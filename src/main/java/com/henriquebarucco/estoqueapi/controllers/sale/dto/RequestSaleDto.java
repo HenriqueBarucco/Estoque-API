@@ -12,5 +12,4 @@ import lombok.Setter;
 public class RequestSaleDto {
     Long productId;
     Integer quantity;
-    String date;
 }

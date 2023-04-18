@@ -1,7 +1,8 @@
 package com.henriquebarucco.estoqueapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.henriquebarucco.estoqueapi.entities.dao.SaleDao;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +39,12 @@ public class Product implements Serializable {
 
     @Column(name = "price")
     private Double price;
+
+    @Column(name = "isSold")
+    private Boolean isSold;
+
+    @JoinColumn(name = "sale")
+    private SaleDao sale;
 
     @JsonProperty("total")
     public Double total() {
