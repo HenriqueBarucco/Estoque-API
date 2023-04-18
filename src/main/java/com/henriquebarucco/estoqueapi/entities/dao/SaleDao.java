@@ -1,5 +1,6 @@
 package com.henriquebarucco.estoqueapi.entities.dao;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +16,9 @@ public class SaleDao {
 
     private Integer quantitySold;
     private Double totalValue;
+    private Double totalCost;
+    @JsonProperty("profit")
+    private Double profit() {
+     return totalValue - totalCost;
+    }
 }

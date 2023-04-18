@@ -12,6 +12,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.List;
 import java.util.Locale;
 
 @Entity
@@ -45,6 +46,10 @@ public class Product implements Serializable {
 
     @JoinColumn(name = "sale")
     private SaleDao sale;
+
+    @ElementCollection
+    @Column(name = "years")
+    private List<String> years;
 
     @JsonProperty("total")
     public Double total() {

@@ -29,8 +29,20 @@ public class SaleService {
 
         product.setSale(new SaleDao(
             saleDao.getQuantitySold() + saleDto.getQuantity(),
-            saleDao.getTotalValue() + (product.getPrice() * saleDto.getQuantity())
+            saleDao.getTotalValue() + (saleDto.getPrice() * saleDto.getQuantity()),
+            product.getPrice() * (saleDao.getQuantitySold() + saleDto.getQuantity())
         ));
+        
+        List<String> list = product.getYears();
+        if (!list.contains("2023") && !saleDto.getYears().contains("2022")) {
+            list.add("2023");
+        }
+        
+        if (saleDto.getYears().contains("2022")) {
+            list.add("2022");
+        }
+        
+        product.setYears(list);
 
         product.setAvailable(product.getAvailable() - saleDto.getQuantity());
 

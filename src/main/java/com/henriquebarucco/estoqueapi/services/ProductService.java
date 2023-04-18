@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,10 +50,11 @@ public class ProductService {
     public Product insert(RequestProductDto productDto) {
         Product product = modelMapper.map(productDto, Product.class);
         product.setIsSold(false);
-        product.setSale(new SaleDao(0, 0.0));
+        product.setSale(new SaleDao(0, 0.0, 0.0));
+        product.setYears(new ArrayList<String>());
 
         if (productRepository.findFirstByName(product.getName()) != null) {
-            throw new ProductAlreadyExistsException();
+            throw new ProductAlreadyExistsException(); // TODO SSSSSSSSSSSSSSS
         }
 
         Product addedProduct = productRepository.save(product);
