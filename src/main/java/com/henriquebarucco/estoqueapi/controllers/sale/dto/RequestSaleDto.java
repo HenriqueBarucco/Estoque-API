@@ -15,5 +15,5 @@ public class RequestSaleDto {
     Long productId;
     Integer quantity;
     Double price;
-    List<String> years;
+    String year;
 }

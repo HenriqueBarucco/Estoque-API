@@ -34,15 +34,8 @@ public class SaleService {
         ));
         
         List<String> list = product.getYears();
-        if (!list.contains("2023") && (!saleDto.getYears().contains("2022") || !saleDto.getYears().contains("2021"))) {
-            list.add("2023");
-        }
-        
-        if (saleDto.getYears().contains("2022")) {
-            list.add("2022");
-        }
-        if (saleDto.getYears().contains("2021")) {
-            list.add("2021");
+        if (!list.contains(saleDto.getYear())) {
+            list.add(saleDto.getYear());
         }
         
         product.setYears(list);
