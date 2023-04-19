@@ -2,7 +2,6 @@ package com.henriquebarucco.estoqueapi.services;
 
 import com.henriquebarucco.estoqueapi.controllers.product.dto.RequestProductDto;
 import com.henriquebarucco.estoqueapi.entities.Product;
-import com.henriquebarucco.estoqueapi.entities.dao.SaleDao;
 import com.henriquebarucco.estoqueapi.repositories.ProductRepository;
 import com.henriquebarucco.estoqueapi.services.exceptions.DatabaseException;
 import com.henriquebarucco.estoqueapi.services.exceptions.ProductNotFoundException;
