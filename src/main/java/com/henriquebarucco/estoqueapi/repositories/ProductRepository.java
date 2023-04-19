@@ -16,6 +16,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     
     List<Product> findByIsSoldTrue();
 
-    @Query("SELECT SUM(s.profit) FROM Product p JOIN p.sales s")
+    @Query("SELECT SUM(s.profit) FROM Product p JOIN p.sale s")
     Double getTotalProfit();
 }
