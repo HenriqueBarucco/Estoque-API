@@ -5,7 +5,6 @@ import com.henriquebarucco.estoqueapi.entities.Product;
 import com.henriquebarucco.estoqueapi.entities.dao.SaleDao;
 import com.henriquebarucco.estoqueapi.repositories.ProductRepository;
 import com.henriquebarucco.estoqueapi.services.exceptions.DatabaseException;
-import com.henriquebarucco.estoqueapi.services.exceptions.ProductAlreadyExistsException;
 import com.henriquebarucco.estoqueapi.services.exceptions.ProductNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,13 +47,9 @@ public class ProductService {
 
     public Product insert(RequestProductDto productDto) {
         Product product = modelMapper.map(productDto, Product.class);
-        product.setIsSold(false);
-        product.setSale(new SaleDao(0, 0.0, 0.0));
-        product.setYears(new ArrayList<String>());
 
         if (productRepository.findFirstByName(product.getName()) != null) {
             return productRepository.findFirstByName(product.getName());
-            //throw new ProductAlreadyExistsException(); // TODO SSSSSSSSSSSSSSS
         }
 
         Product addedProduct = productRepository.save(product);

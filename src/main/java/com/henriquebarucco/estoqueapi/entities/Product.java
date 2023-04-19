@@ -1,6 +1,7 @@
 package com.henriquebarucco.estoqueapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.henriquebarucco.estoqueapi.controllers.sale.dto.RequestSaleDto;
 import com.henriquebarucco.estoqueapi.entities.dao.SaleDao;
 
 import jakarta.persistence.*;
@@ -12,6 +13,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,14 +44,14 @@ public class Product implements Serializable {
     private Double price;
 
     @Column(name = "isSold")
-    private Boolean isSold;
+    private Boolean isSold = false;
 
     @JoinColumn(name = "sale")
-    private SaleDao sale;
+    private SaleDao sale = new SaleDao();
 
     @ElementCollection
     @Column(name = "years")
-    private List<String> years;
+    private List<String> years = new ArrayList<>();
 
     @JsonProperty("total")
     public Double total() {
@@ -57,5 +59,14 @@ public class Product implements Serializable {
         symbols.setDecimalSeparator('.');
         DecimalFormat df = new DecimalFormat("0.00", symbols);
         return Double.parseDouble(df.format(price * available));
+    }
+
+    public void sale(RequestSaleDto saleDto) {
+        if (!this.years.contains(saleDto.getYear())) {
+            this.years.add(saleDto.getYear());
+        }
+        this.available = this.available - saleDto.getQuantity();
+        this.sale.newSale(saleDto, this.price);
+        this.isSold = true;
     }
 }
