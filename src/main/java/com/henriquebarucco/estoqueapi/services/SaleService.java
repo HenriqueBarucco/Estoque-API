@@ -30,8 +30,4 @@ public class SaleService {
     public List<Product> findAll() {
         return productRepository.findByIsSoldTrue();
     }
-
-    public Double status() {
-        return productRepository.getTotalProfit();
-    }
 }
