@@ -38,5 +38,15 @@ public class SaleController {
         List<Product> list = saleService.findAll();
         return ResponseEntity.ok().body(list);
     }
+
+    @Operation(
+        summary = "Resultado de todas as vendas.",
+        description = "Valor de lucro de todas as vendas."
+    )
+    @GetMapping(value = "/status")
+    public ResponseEntity<Double> status() {
+        Double profit = saleService.status();
+        return ResponseEntity.ok().body(profit);
+    }
 }
 
